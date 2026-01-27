@@ -1,0 +1,10 @@
+# Deployment settings for safe-settings
+# This configuration restricts safe-settings to only manage connect-auth-module repository
+
+restrictedRepos:
+  # Exclude all repositories by default using wildcard
+  exclude:
+    - '*'
+  # Explicitly include only connect-auth-module
+  include:
+    - connect-auth-module

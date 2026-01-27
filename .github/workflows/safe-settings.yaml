@@ -1,0 +1,57 @@
+name: Safe Settings Sync
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - safe-settings/**
+      - .github/workflows/safe-settings.yaml
+
+concurrency:
+  cancel-in-progress: true
+  group: >-
+    ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
+jobs:
+  safeSettingsSync:
+    runs-on: ubuntu-latest
+    env:
+      # Version/tag of github/safe-settings repo to use:
+      SAFE_SETTINGS_VERSION: 2.1.17
+
+      # Path on GHA runner box where safe-settings code downloaded to:
+      SAFE_SETTINGS_CODE_DIR: .safe-settings-code
+    steps:
+      - uses: actions/checkout@v4
+
+      # Checkout of safe-settings repo for running full sync:
+      - uses: actions/checkout@v4
+        with:
+          repository: github/safe-settings
+          ref: ${{ env.SAFE_SETTINGS_VERSION }}
+          path: ${{ env.SAFE_SETTINGS_CODE_DIR }}
+      - uses: actions/setup-node@v6
+        with:
+          cache: 'npm'
+          node-version-file: ${{ env.SAFE_SETTINGS_CODE_DIR }}/.nvmrc
+          cache-dependency-path: |
+            ${{ env.SAFE_SETTINGS_CODE_DIR }}/package-lock.json
+      - run: npm install
+        working-directory: ${{ env.SAFE_SETTINGS_CODE_DIR }}
+      - run: npm run full-sync
+        working-directory: ${{ env.SAFE_SETTINGS_CODE_DIR }}
+        env:
+          GH_ORG: healingpaper-solution
+          BLOCK_REPO_RENAME_BY_HUMAN: false
+          APP_ID: ${{ vars.SAFE_SETTINGS_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.SAFE_SETTINGS_PRIVATE_KEY }}
+          GITHUB_CLIENT_ID: ${{ vars.SAFE_SETTINGS_GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.SAFE_SETTINGS_GITHUB_CLIENT_SECRET }}
+          ADMIN_REPO: .github
+          CONFIG_PATH: safe-settings
+          CREATE_PR_COMMENT: true
+          DEPLOYMENT_CONFIG_FILE: safe-settings/deployment-settings.yml
