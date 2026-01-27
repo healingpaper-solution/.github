@@ -1,16 +1,14 @@
-name: Safe Settings Sync
+name: Safe Settings Sync PR
 on:
-  schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch: {}
-  push:
-    branches:
-      - main
+  pull_request:
+    paths:
+      - safe-settings/**
+      - .github/workflows/safe-settings.yaml
 
 concurrency:
   cancel-in-progress: true
   group: >-
-    ${{ github.workflow }}-${{ github.ref }}
+    ${{ github.workflow }}-${{ github.event.pull_request.number }}
 
 jobs:
   safeSettingsSync:
@@ -38,7 +36,12 @@ jobs:
             ${{ env.SAFE_SETTINGS_CODE_DIR }}/package-lock.json
       - run: npm install
         working-directory: ${{ env.SAFE_SETTINGS_CODE_DIR }}
-      - run: npm run full-sync
+
+      - name: Copy PR comment script to safe-settings directory
+        run: cp .github/scripts/create-pr-comment.js ${{ env.SAFE_SETTINGS_CODE_DIR }}/
+
+      - name: Run sync with PR comment
+        run: node create-pr-comment.js
         working-directory: ${{ env.SAFE_SETTINGS_CODE_DIR }}
         env:
           GH_ORG: healingpaper-solution
