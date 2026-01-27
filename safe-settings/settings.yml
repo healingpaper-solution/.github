@@ -1,0 +1,32 @@
+autolinks:
+  - key_prefix: "KT-"
+    url_template: "https://notion.so/KT-<num>"
+    is_alphanumeric: false
+
+repository:
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent
+  # squash-merging.
+  allow_squash_merge: false
+
+  # Either `true` to allow merging pull requests with a merge commit, or `false`
+  # to prevent merging pull requests with merge commits.
+  allow_merge_commit: false
+
+  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
+  # rebase-merging.
+  allow_rebase_merge: true
+
+  # Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge.
+  allow_auto_merge: true
+
+  # Either `true` to always allow a pull request head branch that is behind its base
+  # branch to be updated even if it is not required to be up to date before merging,
+  # or `false` otherwise.
+  allow_update_branch: true
+
+  # Either true to allow automatically deleting head branches
+  # when pull requests are merged, or false to prevent automatic deletion.
+  delete_head_branch_on_merge: true
+
+  # Either true to allow private forks, or false to prevent private forks.
+  allow_forking: false
