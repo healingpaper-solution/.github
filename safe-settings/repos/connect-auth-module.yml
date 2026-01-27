@@ -18,7 +18,7 @@ repository:
   allow_rebase_merge: true
 
   # Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge.
-  allow_auto_merge: false
+  allow_auto_merge: true
 
   # Either `true` to always allow a pull request head branch that is behind its base
   # branch to be updated even if it is not required to be up to date before merging,
