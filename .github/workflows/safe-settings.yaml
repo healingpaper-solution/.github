@@ -49,8 +49,8 @@ jobs:
           BLOCK_REPO_RENAME_BY_HUMAN: false
           APP_ID: ${{ vars.SAFE_SETTINGS_APP_ID }}
           PRIVATE_KEY: ${{ secrets.SAFE_SETTINGS_PRIVATE_KEY }}
-          # GITHUB_CLIENT_ID: ${{ vars.SAFE_SETTINGS_GITHUB_CLIENT_ID }}
-          # GITHUB_CLIENT_SECRET: ${{ secrets.SAFE_SETTINGS_GITHUB_CLIENT_SECRET }}
+          GITHUB_CLIENT_ID: ${{ vars.SAFE_SETTINGS_GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.SAFE_SETTINGS_GITHUB_CLIENT_SECRET }}
           ADMIN_REPO: .github
           CONFIG_PATH: safe-settings
           CREATE_PR_COMMENT: true
