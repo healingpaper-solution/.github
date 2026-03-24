@@ -1,4 +1,4 @@
-# KOS Branch / 커밋 전략
+# KOS Branch / Commit 전략
 
 ## 기본 원칙
 - 작게 쪼개고 자주 통합해요.
